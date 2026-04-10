@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나만의 다이어트</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 사이드바 -->
+  <nav class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">🥗</span>
+      <span class="logo-text">다이어트</span>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">📊</span><span>대시보드</span>
+      </li>
+      <li class="nav-item" data-page="meals">
+        <span class="nav-icon">🍽️</span><span>식단 기록</span>
+      </li>
+      <li class="nav-item" data-page="weight">
+        <span class="nav-icon">⚖️</span><span>체중 기록</span>
+      </li>
+      <li class="nav-item" data-page="stats">
+        <span class="nav-icon">📈</span><span>통계</span>
+      </li>
+      <li class="nav-item" data-page="goals">
+        <span class="nav-icon">🎯</span><span>목표 설정</span>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="date-display" id="currentDate"></div>
+      <div class="header-right">
+        <button class="btn btn-secondary" id="prevDay">◀ 이전날</button>
+        <button class="btn btn-secondary" id="todayBtn">오늘</button>
+        <button class="btn btn-secondary" id="nextDay">다음날 ▶</button>
+      </div>
+    </header>
+
+    <!-- 대시보드 -->
+    <section class="page active" id="page-dashboard">
+      <h2 class="page-title">오늘의 요약</h2>
+
+      <div class="summary-cards">
+        <div class="card summary-card">
+          <div class="card-label">섭취 칼로리</div>
+          <div class="card-value" id="dash-calories">0</div>
+          <div class="card-unit">kcal</div>
+          <div class="card-sub" id="dash-cal-goal"></div>
+        </div>
+        <div class="card summary-card">
+          <div class="card-label">탄수화물</div>
+          <div class="card-value" id="dash-carbs">0</div>
+          <div class="card-unit">g</div>
+        </div>
+        <div class="card summary-card">
+          <div class="card-label">단백질</div>
+          <div class="card-value" id="dash-protein">0</div>
+          <div class="card-unit">g</div>
+        </div>
+        <div class="card summary-card">
+          <div class="card-label">지방</div>
+          <div class="card-value" id="dash-fat">0</div>
+          <div class="card-unit">g</div>
+        </div>
+      </div>
+
+      <!-- 칼로리 진행바 -->
+      <div class="card">
+        <div class="section-title">칼로리 목표 달성률</div>
+        <div class="progress-wrapper">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="calorie-bar"></div>
+          </div>
+          <div class="progress-label" id="calorie-label"></div>
+        </div>
+      </div>
+
+      <!-- 오늘 식단 미리보기 -->
+      <div class="card">
+        <div class="section-title-row">
+          <div class="section-title">오늘 식단</div>
+          <button class="btn btn-primary btn-sm" id="dash-add-meal">+ 식사 추가</button>
+        </div>
+        <div id="dash-meal-list" class="dash-meal-list"></div>
+      </div>
+
+      <!-- 체중 -->
+      <div class="card">
+        <div class="section-title-row">
+          <div class="section-title">오늘 체중</div>
+        </div>
+        <div class="weight-input-row">
+          <input type="number" id="dash-weight-input" class="input" placeholder="kg 입력" step="0.1" min="20" max="300" />
+          <button class="btn btn-primary" id="dash-weight-save">저장</button>
+        </div>
+        <div id="dash-weight-display" class="weight-display"></div>
+      </div>
+    </section>
+
+    <!-- 식단 기록 -->
+    <section class="page" id="page-meals">
+      <h2 class="page-title">식단 기록</h2>
+
+      <div class="meal-categories">
+        <div class="meal-category-card card" data-meal="breakfast">
+          <div class="meal-cat-header">
+            <span>🌅 아침</span>
+            <button class="btn btn-primary btn-sm add-meal-btn" data-meal="breakfast">+ 추가</button>
+          </div>
+          <div class="meal-items" id="meal-breakfast"></div>
+          <div class="meal-total" id="total-breakfast"></div>
+        </div>
+        <div class="meal-category-card card" data-meal="lunch">
+          <div class="meal-cat-header">
+            <span>☀️ 점심</span>
+            <button class="btn btn-primary btn-sm add-meal-btn" data-meal="lunch">+ 추가</button>
+          </div>
+          <div class="meal-items" id="meal-lunch"></div>
+          <div class="meal-total" id="total-lunch"></div>
+        </div>
+        <div class="meal-category-card card" data-meal="dinner">
+          <div class="meal-cat-header">
+            <span>🌙 저녁</span>
+            <button class="btn btn-primary btn-sm add-meal-btn" data-meal="dinner">+ 추가</button>
+          </div>
+          <div class="meal-items" id="meal-dinner"></div>
+          <div class="meal-total" id="total-dinner"></div>
+        </div>
+        <div class="meal-category-card card" data-meal="snack">
+          <div class="meal-cat-header">
+            <span>🍎 간식</span>
+            <button class="btn btn-primary btn-sm add-meal-btn" data-meal="snack">+ 추가</button>
+          </div>
+          <div class="meal-items" id="meal-snack"></div>
+          <div class="meal-total" id="total-snack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 체중 기록 -->
+    <section class="page" id="page-weight">
+      <h2 class="page-title">체중 기록</h2>
+
+      <div class="card">
+        <div class="section-title">체중 입력</div>
+        <div class="weight-input-row">
+          <input type="number" id="weight-input" class="input" placeholder="오늘 체중 (kg)" step="0.1" min="20" max="300" />
+          <button class="btn btn-primary" id="weight-save">저장</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">체중 변화 그래프</div>
+        <canvas id="weightChart" height="200"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="section-title">체중 기록 목록</div>
+        <div id="weight-list" class="weight-list"></div>
+      </div>
+    </section>
+
+    <!-- 통계 -->
+    <section class="page" id="page-stats">
+      <h2 class="page-title">통계</h2>
+
+      <div class="summary-cards">
+        <div class="card summary-card">
+          <div class="card-label">이번주 평균 칼로리</div>
+          <div class="card-value" id="stat-avg-cal">-</div>
+          <div class="card-unit">kcal</div>
+        </div>
+        <div class="card summary-card">
+          <div class="card-label">최근 체중 변화</div>
+          <div class="card-value" id="stat-weight-change">-</div>
+          <div class="card-unit">kg</div>
+        </div>
+        <div class="card summary-card">
+          <div class="card-label">기록한 날 수</div>
+          <div class="card-value" id="stat-record-days">0</div>
+          <div class="card-unit">일</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">주간 칼로리 섭취량</div>
+        <canvas id="calorieChart" height="200"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="section-title">영양소 비율 (오늘)</div>
+        <canvas id="macroChart" height="200"></canvas>
+      </div>
+    </section>
+
+    <!-- 목표 설정 -->
+    <section class="page" id="page-goals">
+      <h2 class="page-title">목표 설정</h2>
+
+      <div class="card">
+        <div class="section-title">기본 정보</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="goal-name" class="input" placeholder="이름 입력" />
+          </div>
+          <div class="form-group">
+            <label>키 (cm)</label>
+            <input type="number" id="goal-height" class="input" placeholder="키" min="100" max="250" />
+          </div>
+          <div class="form-group">
+            <label>나이</label>
+            <input type="number" id="goal-age" class="input" placeholder="나이" min="10" max="100" />
+          </div>
+          <div class="form-group">
+            <label>성별</label>
+            <select id="goal-gender" class="input">
+              <option value="male">남성</option>
+              <option value="female">여성</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">다이어트 목표</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>목표 체중 (kg)</label>
+            <input type="number" id="goal-target-weight" class="input" placeholder="목표 체중" step="0.1" min="20" max="300" />
+          </div>
+          <div class="form-group">
+            <label>일일 칼로리 목표 (kcal)</label>
+            <input type="number" id="goal-calories" class="input" placeholder="예: 1800" min="500" max="5000" />
+          </div>
+          <div class="form-group">
+            <label>탄수화물 목표 (g)</label>
+            <input type="number" id="goal-carbs" class="input" placeholder="예: 225" min="0" />
+          </div>
+          <div class="form-group">
+            <label>단백질 목표 (g)</label>
+            <input type="number" id="goal-protein" class="input" placeholder="예: 120" min="0" />
+          </div>
+          <div class="form-group">
+            <label>지방 목표 (g)</label>
+            <input type="number" id="goal-fat" class="input" placeholder="예: 60" min="0" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="goals-save">저장</button>
+          <button class="btn btn-secondary" id="goals-calc-bmr">BMR로 자동 계산</button>
+        </div>
+        <div id="goals-save-msg" class="save-msg"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 식사 추가 모달 -->
+  <div class="modal-backdrop" id="meal-modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">식사 추가</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- 빠른 선택 -->
+        <div class="section-title">자주 먹는 음식</div>
+        <div class="quick-foods" id="quick-foods"></div>
+
+        <div class="divider">또는 직접 입력</div>
+
+        <div class="form-group">
+          <label>음식 이름</label>
+          <input type="text" id="food-name" class="input" placeholder="예: 닭가슴살" />
+        </div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>칼로리 (kcal)</label>
+            <input type="number" id="food-calories" class="input" placeholder="0" min="0" />
+          </div>
+          <div class="form-group">
+            <label>탄수화물 (g)</label>
+            <input type="number" id="food-carbs" class="input" placeholder="0" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>단백질 (g)</label>
+            <input type="number" id="food-protein" class="input" placeholder="0" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>지방 (g)</label>
+            <input type="number" id="food-fat" class="input" placeholder="0" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>수량 / 양</label>
+            <input type="number" id="food-amount" class="input" value="1" min="0.1" step="0.1" />
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" id="modal-save">추가하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
