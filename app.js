@@ -112,6 +112,13 @@ function getEnergySummary(date) {
   const balance = intake - totalBurn;
   return { intake, appleBurn, manualExercise, totalBurn, balance, health };
 }
+function classifyStage(balance) {
+  if (balance <= -500) return { label: '감량 적자 구간', cls: 'deficit-strong' };
+  if (balance <= -200) return { label: '완만한 감량 구간', cls: 'deficit-light' };
+  if (balance < 200) return { label: '유지 구간', cls: 'maintain' };
+  return { label: '과잉/증량 구간', cls: 'surplus' };
+}
+
 
 function saveState() {
   localStorage.setItem('diet_state', JSON.stringify(state));
@@ -222,13 +229,30 @@ function renderEnergyBalance(targetId) {
   if (!wrap) return;
   const s = getEnergySummary(state.selectedDate);
   const sign = s.balance > 0 ? '+' : '';
-  const stage = s.balance <= -500 ? '감량 적자 구간' : s.balance <= -200 ? '완만한 감량 구간' : s.balance < 200 ? '유지 구간' : '증량/과잉 구간';
+  const stage = classifyStage(s.balance);
   wrap.innerHTML = `
     <div>섭취: <b>${s.intake} kcal</b></div>
     <div>소모(애플건강): <b>${s.appleBurn} kcal</b> + 운동기록 <b>${s.manualExercise} kcal</b></div>
     <div>순에너지(섭취-소모): <b>${sign}${s.balance} kcal</b></div>
-    <div>현재 단계: <b>${stage}</b></div>
+    <div>현재 단계: <b>${stage.label}</b></div>
   `;
+
+  const badge = document.getElementById('energy-stage-badge');
+  if (badge && targetId === 'energy-balance') {
+    badge.className = `stage-badge ${stage.cls}`;
+    badge.textContent = `오늘 단계: ${stage.label}`;
+  }
+}
+
+function addMorningRoutine() {
+  const breakfast = getMealsForDate(state.selectedDate).breakfast;
+  breakfast.push(
+    { name: '양배추 계란부침', calories: 210, carbs: 10, protein: 12, fat: 14, amount: 1 },
+    { name: '잡곡우유', calories: 140, carbs: 20, protein: 6, fat: 4, amount: 1 },
+    { name: '윌 180ml', calories: 125, carbs: 17, protein: 5, fat: 4, amount: 1 },
+  );
+  saveState();
+  renderAll();
 }
 
 function renderMeals() {
@@ -531,8 +555,17 @@ function initEvents() {
   document.getElementById('prevDay').addEventListener('click', () => { state.selectedDate = addDays(state.selectedDate, -1); renderAll(); });
   document.getElementById('nextDay').addEventListener('click', () => { state.selectedDate = addDays(state.selectedDate, 1); renderAll(); });
   document.getElementById('todayBtn').addEventListener('click', () => { state.selectedDate = todayStr(); renderAll(); });
+  document.getElementById('go-health-page').addEventListener('click', () => {
+    currentPage = 'health';
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector('.nav-item[data-page=\"health\"]').classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-health').classList.add('active');
+    renderAll();
+  });
 
   document.getElementById('dash-add-meal').addEventListener('click', () => openMealModal('breakfast'));
+  document.getElementById('add-morning-routine').addEventListener('click', addMorningRoutine);
   document.querySelectorAll('.add-meal-btn').forEach(btn => btn.addEventListener('click', () => openMealModal(btn.dataset.meal)));
 
   document.getElementById('modal-close').addEventListener('click', closeMealModal);

@@ -43,12 +43,22 @@
         <button class="btn btn-secondary" id="prevDay">◀ 이전날</button>
         <button class="btn btn-secondary" id="todayBtn">오늘</button>
         <button class="btn btn-secondary" id="nextDay">다음날 ▶</button>
+        <button class="btn btn-primary" id="go-health-page">건강 연동</button>
       </div>
     </header>
 
     <!-- 대시보드 -->
     <section class="page active" id="page-dashboard">
       <h2 class="page-title">오늘의 요약</h2>
+
+
+      <div class="card highlight-card">
+        <div class="section-title-row">
+          <div class="section-title">오늘 아침 루틴</div>
+          <button class="btn btn-primary btn-sm" id="add-morning-routine">루틴 한 번에 추가</button>
+        </div>
+        <div class="helper-text">양배추 계란부침 + 잡곡우유 + 윌 180ml를 아침 식단에 자동 추가합니다.</div>
+      </div>
 
       <div class="summary-cards">
         <div class="card summary-card">
@@ -126,6 +136,7 @@
       <div class="card">
         <div class="section-title">애플 건강 기준 에너지 밸런스</div>
         <div id="energy-balance" class="energy-balance"></div>
+        <div id="energy-stage-badge" class="stage-badge"></div>
       </div>
     </section>
 
