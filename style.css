@@ -371,3 +371,18 @@ body {
   .form-grid-3 { grid-template-columns: 1fr 1fr; }
   .top-bar { flex-direction: column; align-items: flex-start; }
 }
+
+.check-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.check-item { font-size: 0.92rem; color: var(--text); display: flex; gap: 6px; align-items: center; }
+.energy-balance { display: grid; gap: 6px; font-size: 0.95rem; }
+.lookup-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.lookup-result { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.helper-text { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px; }
+.text-area { min-height: 120px; resize: vertical; }
+
+.highlight-card { border: 1px solid var(--primary-light); background: #f7fff8; }
+.stage-badge { margin-top: 10px; display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; }
+.stage-badge.deficit-strong { background: #e6fffa; color: #0f766e; }
+.stage-badge.deficit-light { background: #ecfccb; color: #3f6212; }
+.stage-badge.maintain { background: #e0f2fe; color: #0c4a6e; }
+.stage-badge.surplus { background: #fee2e2; color: #991b1b; }
